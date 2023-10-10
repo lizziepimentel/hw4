@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Joe's Hotdog Stand Order</title>
+</head>
+
+<body>
+	
+	<script>
+		//CONSTANTSSSS
+		const HOTDOG$ = 3.75;
+		const FRIES$ = 3;
+		const SODA$ = 2.5;
+		const taxrate = 0.0625;
+		
+		//INPUT
+		let numhotdogs = parseInt(prompt("How many hotdogs do you want?"));
+		let numfries = parseInt(prompt("How many fries do you want?"));
+		let numsoda = parseInt(prompt("How many sodas do you want?"));
+		
+		//SUBTOTAL
+		let subtotal = numhotdogs * HOTDOG$ + numfries * FRIES$ + numsoda * SODA$;
+		
+		//DISCOUNT
+		let discount = 0;
+		let discountsubtotal = 0;
+		if (subtotal >= 25){
+			discount = 0.1 * subtotal;
+			discountsubtotal = subtotal - discount;
+		} else {
+			discountsubtotal = subtotal;
+		}
+		
+		//TAX
+		let tax = subtotal * taxrate;
+		
+		//TOTAL
+		let total = discountsubtotal + tax
+		
+		//ROUNDING FUNCTION
+		function formatCurrency(number) {
+			
+			let shiftednum = number * 100;
+			let dec = shiftednum % 1;
+			let truncatednum = shiftednum - dec;
+			//rounding specific
+			let roundednum;
+			if (dec >= 0.5) {
+				roundednum = truncatednum + 100;
+			} else {
+				roundednum = truncatednum;
+			}
+			let result = roundednum/100;
+			
+			//correct decimal places
+			//truncate for dec
+			let intpart;
+			if (result >= 0) {
+				intpart = parseInt(result);
+			} else {
+				intpart = parseInt(result) - 1;
+			}
+			let decpart = (result - intpart) * 100;
+			decpart = parseInt(decpart);
+			
+			//concatenate into string
+			let resultStr = intpart + ".";
+			let decStr = decpart + "";
+			
+			//ensure 2 dec places
+			for (let i = 0; i < 2 - decStr.length; i++) {
+				resultStr += "0";
+			}
+			resultStr += decStr
+			
+			return resultStr;
+		}
+		
+		//DISPLAY
+		document.write("<h2>Order Summary:</h2>");
+		
+		document.write("<p><strong>" + numhotdogs + " Hotdogs</strong> x $" + HOTDOG$ + " = $" + formatCurrency(numhotdogs * HOTDOG$) + "</p>");
+		
+		document.write("<p><strong>" + numfries + " Fries</strong> x $" + FRIES$ + " = $" + formatCurrency(numfries * FRIES$) + "</p>");
+		
+		document.write("<p><strong>" + numsoda + " Sodas</strong> x $" + SODA$ + " = $" + formatCurrency(numsoda * SODA$) + "</p>");
+		
+		document.write("<p><strong>Subtotal before discount:</strong></p>" + "$" + formatCurrency(subtotal)) + "</p>";
+		
+		document.write("<p><strong>Discount:</strong></p>" + "$" + formatCurrency(discount)) + "</p>";
+		
+		document.write("<p><strong>Subtotal after discount:</strong></p>" + "$" + formatCurrency(discountsubtotal)) + "</p>";
+		
+		document.write("<p><strong>Tax:</strong></p>" + "$" + formatCurrency(tax)) + "</p>";
+		
+		document.write("<p><strong>Grand Total:</strong></p>" + "$" + formatCurrency(total)) + "</p>";
+		
+		
+
+	</script>
+</body>
+</html>
